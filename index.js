@@ -11,7 +11,7 @@
         {'positionX': '4.31', 'positionY': '2.52'},
         {'positionX': '5.61', 'positionY': '2.62'},
         {'positionX': '6.91', 'positionY': '1.84'},
-        {'positionX': '7.28', 'positionY': '6.0'},
+        {'positionX': '6.58', 'positionY': '5.05'},
         {'positionX': '8.24', 'positionY': '1.29'},
         {'positionX': '8.14', 'positionY': '1.69'},
         {'positionX': '7.60', 'positionY': '2.36'},
@@ -43,10 +43,35 @@
         {'positionX': '2', 'positionY': '4'},
         {'positionX': '5.5', 'positionY': '3.2'},
         {'positionX': '5.26', 'positionY': '5.84'},
-        {'positionX': '7', 'positionY': '5'}
+        {'positionX': '7', 'positionY': '5'},
+	
+		{'positionX': '6.65', 'positionY': '4.34'},
+		{'positionX': '6.71', 'positionY': '4.54'},
+		{'positionX': '6.69', 'positionY': '4.54'},
+		{'positionX': '6.19', 'positionY': '4.70'},
+		{'positionX': '5.93', 'positionY': '5.11'},
+		{'positionX': '5.99', 'positionY': '5.42'},
+		{'positionX': '6.35', 'positionY': '5.30'},
+		{'positionX': '6.27', 'positionY': '5.15'},
+		{'positionX': '5.99', 'positionY': '4.50'},
+		{'positionX': '6.79', 'positionY': '5.25'},
+		{'positionX': '6.29', 'positionY': '6.00'},
+		{'positionX': '6.37', 'positionY': '5.18'},
+		{'positionX': '6.97', 'positionY': '5.08'},
+		{'positionX': '6.81', 'positionY': '3.59'},
+		{'positionX': '6.35', 'positionY': '4.17'},
+		{'positionX': '7.07', 'positionY': '4.34'},
+		{'positionX': '6.79', 'positionY': '5.42'},
+		{'positionX': '6.75', 'positionY': '5.70'},
+		{'positionX': '6.25', 'positionY': '5.27'},
+		{'positionX': '6.39', 'positionY': '4.98'},
+		{'positionX': '5.93', 'positionY': '4.70'},
+		{'positionX': '7.07', 'positionY': '4.34'}
     ];
+	
     //中奖消息滚动
-    var msgTime, speed = 50, iliHeight = 0, delay = 2000, username = proname = '';
+    var flag=true,msgTime, speed = 50, iliHeight = 0, delay = 2000, username = proname = '';
+	
     window.onload = function () {
         //ajax 请求后台数据
         $.ajax({
@@ -92,14 +117,20 @@
         msgTime = setInterval("scrollUp()", speed);
         var temp = area.scrollTop++;
         var indx = temp / iliHeight + 1;
+		if( username == $('em', $('ul li').eq(indx)).html()){
+			flag=false;
+		}else{
+			flag=true;
+		}
         username = $('em', $('ul li').eq(indx)).html();
         proname = $('i', $('ul li').eq(indx)).html();
     }
 
     function scrollUp() {
-        0 == (area.scrollTop % iliHeight) ? (clearInterval(msgTime), skip(), setTimeout(startScroll, delay)) : (area.scrollTop++ , area.scrollTop >= area.scrollHeight / 2 && (area.scrollTop = 0))
+        0 == (area.scrollTop % iliHeight) ? (clearInterval(msgTime),skip(), setTimeout(startScroll, delay)) : (area.scrollTop++ , area.scrollTop >= area.scrollHeight / 2 && (area.scrollTop = 0))
     }
 
+	var indx =0;
     function skip() {
         //清空初始化
         $('#username').html("");
@@ -107,7 +138,10 @@
         //添加数据
         $('#username').html(username);
         $('#proname').html(proname);
-        var indx = Math.floor(Math.random() * ( mapAddr.length - 1));
+		if(flag){
+			indx = Math.floor(Math.random() * ( mapAddr.length - 1));
+		}
+        
         $('.GPS-loc').addClass('active').css({
             'left': mapAddr[indx].positionX + 'rem',
             'top': mapAddr[indx].positionY + 'rem'
