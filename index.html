@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PC-地图订单展示</title>
+    <script type="text/javascript" src="size.js"></script>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+            border: none;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+        }
+
+        ul {
+            list-style: none
+        }
+
+        a, a:active, a:hover {
+            text-decoration: none;
+        }
+
+        body {
+            background: url("img/PC-dis-bg.jpg") left bottom no-repeat;
+            -webkit-background-size: 19.2rem 10.8rem;
+            background-size: 19.2rem 10.8rem;
+        }
+
+        em, i {
+            font-style: normal
+        }
+
+        .img-responsive {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .main {
+            margin: 0 auto;
+            width: 16.9rem;
+            height: auto;
+        }
+
+        .main-left-map {
+            position: relative;
+            float: left;
+            margin-top: 1.9rem;
+            width: 9.34rem;
+            height: 7.18rem;
+            background: url("img/PC-dis-map.png") 50% 50% no-repeat;
+            -webkit-background-size: 9.14rem 7.18rem;
+            background-size: 9.14rem 7.18rem;
+        }
+
+        .main-right-list {
+            float: right;
+            width: 6.36rem;
+            height: auto;
+            -webkit-background-size: 6.36rem 7.76rem;
+            background-size: 6.36rem 7.76rem;
+        }
+
+        .main-right-title {
+            margin-top: 0.65rem;
+            margin-bottom: 0.25rem;
+            padding-left: 0.8rem;
+            width: 4.8rem;
+            height: 0.59rem;
+        }
+
+        .main-right-list-box {
+            padding: 0.56rem 0.36rem 0.66rem 0.44rem;
+            width: 6.36rem;
+            height: 7.78rem;
+            background: url("img/PC-dis-list.png") center center no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        .list-panel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .list-items {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .list-panel li {
+            position: relative;
+            padding-left: 0.2rem;
+            width: auto;
+            height: 0.38rem;
+            font-size: 0.2rem;
+            line-height: 0.38rem;
+            color: #fff;
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .list-panel li em {
+            color: #f3c927;
+        }
+
+        .GPS-loc {
+            opacity: 0;
+            display: block;
+            position: absolute;
+            z-index: 888;
+            left: 1.58rem;
+            top: 1.85rem;
+            width: 0.18rem;
+            height: 0.22rem;
+            background: url('img/GPS.png') center center no-repeat;
+            background-size: 0.18rem 0.22rem;
+            -webkit-background-size: 0.18rem 0.22rem;
+        }
+
+        .GPS-loc.active {
+            opacity: 1;
+            -webkit-transition: opacity 1s;
+            -moz-transition: opacity 1s;
+            -ms-transition: opacity 1s;
+            -o-transition: opacity 1s;
+            transition: opacity 1s;
+        }
+
+        /*订的详情*/
+        .order-info {
+            position: absolute;
+            z-index: 999;
+            top: -0.84rem;
+            left: -0.35rem;
+            padding: 0.15rem 0.2rem;
+            width: 2.08rem;
+            height: 0.74rem;
+            background: #fff;
+            -webkit-border-radius: 0.1rem;
+            -moz-border-radius: 0.1rem;
+            border-radius: 0.1rem;
+        }
+
+        .order-info .order-info-panel {
+            width: auto;
+            height: 0.44rem;
+            font-size: 0.14rem;
+            line-height: 0.22rem;
+            color: #333;
+            display: -webkit-box;
+            display: -moz-box;
+            overflow: hidden;
+            -webkit-line-clamp: 2;
+            -ms-word-break: break-all;
+            word-break: break-all;
+            -webkit-box-orient: vertical;
+
+        }
+
+        .order-info .order-info-panel > em {
+            color: #f3c927;
+        }
+
+        .order-info:after {
+            position: absolute;
+            bottom: -9px;
+            left: 30px;
+            display: block;
+            content: '';
+            width: 0;
+            height: 0;
+            font-size: 0;
+            border-left: 5px solid transparent;
+            border-top: 5px solid #fff;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="main-left-map">
+        <div class="GPS-loc">
+            <div class="order-info">
+                <span class="order-info-panel">
+                     会员<em id="username"></em><i id="proname"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!--main-left-map-->
+
+    <div class="main-right-list">
+        <div class="main-right-title"><img src="img/PC-dis.png" class="img-responsive" alt=""></div>
+        <!--main-right-title-->
+        <div class="main-right-list-box">
+            <div class="list-panel">
+                <ul class="list-items" id="rolePanel">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--main-right-list-->
+</div>
+
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="index.min.js"></script>
+</body>
+</html>
